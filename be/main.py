@@ -15,14 +15,13 @@ app.add_middleware(
 )
 
 
-# Store active games
 games = {}
 
 class Game:
     def __init__(self):
         self.board = [""] * 9
         self.players = []
-        self.turn = "X"  # X always starts
+        self.turn = "X"  
         self.winner = None
 
     async def send_state(self):
@@ -43,9 +42,9 @@ class Game:
     def check_winner(self):
         """Check if there's a winner."""
         win_patterns = [
-            [0, 1, 2], [3, 4, 5], [6, 7, 8],  # Rows
-            [0, 3, 6], [1, 4, 7], [2, 5, 8],  # Columns
-            [0, 4, 8], [2, 4, 6]             # Diagonals
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],  
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],  
+            [0, 4, 8], [2, 4, 6]            
         ]
         for pattern in win_patterns:
             a, b, c = pattern
