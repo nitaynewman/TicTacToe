@@ -1,0 +1,88 @@
+# Tic Tac Toe Game
+
+## Overview
+This is a real-time multiplayer Tic Tac Toe game built using React for the frontend and a FastAPI backend with WebSockets for real-time updates. The game allows two players to connect and play, with updates instantly reflected for both users.
+
+## Structure
+### Entities Used
+- **Game**: Represents an instance of the Tic Tac Toe board.
+- **Player**: Each player is assigned a symbol ('X' or 'O').
+- **Move**: A single move made by a player, updating the board state.
+- **WebSocket Connection**: Enables real-time communication between players.
+
+### Basic Flow
+1. A player clicks on **Create Game**, which sends a request to the backend to create a new game.
+2. The backend generates a unique `game_id` and returns it.
+3. The player joins as 'X' and can share the `game_id` with another player.
+4. The second player enters the `game_id` and joins as 'O'.
+5. Players take turns clicking on the board to make moves.
+6. Each move is sent via WebSocket, updating the board in real time.
+7. After each move, the backend checks for a win condition.
+8. If a player wins, the game displays the winner; if all cells are filled, it's a draw.
+
+### Win Condition Check
+After every move, the backend checks if any row, column, or diagonal contains the same symbol ('X' or 'O') without interruption. If such a condition is met, that player is declared the winner.
+
+## Running the Game
+### Prerequisites
+- Node.js and npm installed for the frontend
+- Python 3 and FastAPI installed for the backend
+
+### Running the Backend
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/nitaynewman/TicTacToe.git
+   cd tic-tac-toe/backend
+   ```
+2. Install dependencies:
+   ```sh
+   pip install -r requirements.txt
+   ```
+3. Run the FastAPI server:
+   ```sh
+   uvicorn main:app --host 0.0.0.0 --port 7000 --reload // can be any port
+   ```
+
+### Running the Frontend
+1. Navigate to the frontend directory:
+   ```sh
+   cd ../fe
+   ```
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
+3. Start the React development server:
+   ```sh
+   npm start
+   ```
+
+### Playing the Game
+1. Open the frontend in your browser (usually `http://localhost:3000`).
+2. Click **Create Game** to generate a `game_id`.
+3. Share the `game_id` with another player.
+4. The second player enters the `game_id` and joins.
+5. Play turns by clicking on an empty cell.
+6. The game ends when a player wins or the board is full.
+
+### Playing via HTTP Requests (Without UI)
+- **creating .env file**
+  ```
+    adding a new file to the fe with:
+    REACT_APP_BACKEND_URL=http://localhost:7000 // can be any port
+  ```
+- **Create Game**
+  ```sh
+  curl -X GET http://localhost:7000/create-game
+  ```
+- **Join WebSocket (Example using wscat)**
+  ```sh
+  wscat -c ws://localhost:7000/ws/{game_id}/{player_symbol}
+  ```
+- **Send Move (via WebSocket)**
+  ```json
+  { "index": 4 }
+  ```
+
+Enjoy playing Tic Tac Toe!
+
